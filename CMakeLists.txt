@@ -14,10 +14,11 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 find_package(GTest REQUIRED)
 
 include_directories("include")
+link_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 file(GLOB srcs "src/*.c")
 add_library(ds ${srcs})
 
 file(GLOB test_srcs "tests/*.cpp")
 add_executable(ds-tests ${srcs} ${test_srcs})
-target_link_libraries(ds-tests ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(ds-tests ds ${GTEST_BOTH_LIBRARIES})
