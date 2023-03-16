@@ -1,7 +1,5 @@
 #include "vector.h"
 
-#include <string.h>
-
 struct _vector
 {
     void **data;
@@ -33,8 +31,6 @@ vector vector_new_with_capacity(size_t size, size_t incremental_size)
         return NULL;
     }
 
-    memset(v->data, 0, sizeof(void *) * size);
-
     return v;
 }
 
@@ -45,7 +41,7 @@ size_t vector_len(vector v)
 
 int vector_set(vector v, int pos, void *data)
 {
-    if ((size_t)abs(pos) > v->len)
+    if (pos >= (int)v->len || -pos > (int)v->len)
         return -1;
 
     if (pos < 0)
@@ -58,7 +54,7 @@ int vector_set(vector v, int pos, void *data)
 
 void *vector_get(vector v, int pos)
 {
-    if ((size_t)abs(pos) >= v->len)
+    if (pos >= (int)v->len || -pos > (int)v->len)
         return (void *)-1;
 
     if (pos < 0)
@@ -72,13 +68,13 @@ int vector_push(vector v, void *data)
     if (v->len == v->size)
     {
         v->size += v->incremental_size;
-        v->data = realloc(v->data, v->size);
+        v->data = realloc(v->data, sizeof(void *) * v->size);
 
         if (v->data == NULL)
             return -1;
     }
 
-    v->data[++v->len] = data;
+    v->data[v->len++] = data;
 
     return 0;
 }
@@ -88,14 +84,12 @@ void *vector_pop(vector v)
     if (v->len == 0)
         return (void *)-1;
 
-    void *ptr = v->data[v->len - 1];
+    void *ptr = v->data[--v->len];
 
-    v->len--;
-
-    if (v->len <= v->size - (2 * v->incremental_size))
+    if (v->len + (2 * v->incremental_size) <= v->size && v->size > v->incremental_size)
     {
         v->size -= v->incremental_size;
-        v->data = realloc(v->data, v->size);
+        v->data = realloc(v->data, sizeof(void *) * v->size);
 
         if (v->data == NULL)
             return (void *)-1;
