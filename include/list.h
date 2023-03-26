@@ -10,8 +10,10 @@ size_t list_len(list l);
 
 int list_set(list l, int pos, void *data);
 void *list_get(list l, int pos);
-int list_push(list l, void *data);
-void *list_pop(list l);
+int list_push_front(list l, void *data);
+void *list_pop_front(list l);
+int list_push_back(list l, void *data);
+void *list_pop_back(list v);
 
 void list_destroy(list l);
 

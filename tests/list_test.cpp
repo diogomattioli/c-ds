@@ -8,9 +8,9 @@ extern "C"
 TEST(list, length_push3)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
     EXPECT_EQ(list_len(l), 3);
 
@@ -20,10 +20,10 @@ TEST(list, length_push3)
 TEST(list, length_push3_pop1)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_pop(l);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_pop_back(l);
 
     EXPECT_EQ(list_len(l), 2);
 
@@ -34,13 +34,13 @@ TEST(list, length_push3_pop3)
 {
     list l = list_new();
 
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
-    list_pop(l);
-    list_pop(l);
-    list_pop(l);
+    list_pop_back(l);
+    list_pop_back(l);
+    list_pop_back(l);
 
     EXPECT_EQ(list_len(l), 0);
 
@@ -50,7 +50,7 @@ TEST(list, length_push3_pop3)
 TEST(list, length_pop)
 {
     list l = list_new();
-    list_pop(l);
+    list_pop_back(l);
 
     EXPECT_EQ(list_len(l), 0);
 
@@ -60,9 +60,9 @@ TEST(list, length_pop)
 TEST(list, set_positive)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
     list_set(l, 0, (void *)1);
     list_set(l, 1, (void *)2);
@@ -78,9 +78,9 @@ TEST(list, set_positive)
 TEST(list, set_negative)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
     list_set(l, -3, (void *)1);
     list_set(l, -2, (void *)2);
@@ -96,7 +96,7 @@ TEST(list, set_negative)
 TEST(list, set_out_of_bounds)
 {
     list l = list_new();
-    list_push(l, NULL);
+    list_push_back(l, NULL);
 
     EXPECT_EQ(list_set(l, 10, NULL), -1);
     EXPECT_EQ(list_set(l, -10, NULL), -1);
@@ -107,9 +107,9 @@ TEST(list, set_out_of_bounds)
 TEST(list, get_positive)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
     list_set(l, 0, (void *)4);
     list_set(l, 1, (void *)5);
@@ -125,9 +125,9 @@ TEST(list, get_positive)
 TEST(list, get_negative)
 {
     list l = list_new();
-    list_push(l, NULL);
-    list_push(l, NULL);
-    list_push(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
+    list_push_back(l, NULL);
 
     list_set(l, 0, (void *)1);
     list_set(l, 1, (void *)2);
@@ -143,7 +143,7 @@ TEST(list, get_negative)
 TEST(list, get_out_of_bounds)
 {
     list l = list_new();
-    list_push(l, NULL);
+    list_push_back(l, NULL);
 
     EXPECT_TRUE(list_get(l, 10) == (void *)-1);
     EXPECT_TRUE(list_get(l, -10) == (void *)-1);
@@ -151,12 +151,12 @@ TEST(list, get_out_of_bounds)
     list_destroy(l);
 }
 
-TEST(list, push)
+TEST(list, push_front)
 {
     list l = list_new();
-    list_push(l, (void *)1);
-    list_push(l, (void *)2);
-    list_push(l, (void *)3);
+    list_push_front(l, (void *)3);
+    list_push_front(l, (void *)2);
+    list_push_front(l, (void *)1);
 
     EXPECT_TRUE(list_get(l, 0) == (void *)1);
     EXPECT_TRUE(list_get(l, 1) == (void *)2);
@@ -165,17 +165,46 @@ TEST(list, push)
     list_destroy(l);
 }
 
-TEST(list, pop)
+TEST(list, pop_front)
 {
     list l = list_new();
-    list_push(l, (void *)1);
-    list_push(l, (void *)2);
-    list_push(l, (void *)3);
+    list_push_front(l, (void *)1);
+    list_push_front(l, (void *)2);
+    list_push_front(l, (void *)3);
 
-    EXPECT_TRUE(list_pop(l) == (void *)3);
-    EXPECT_TRUE(list_pop(l) == (void *)2);
-    EXPECT_TRUE(list_pop(l) == (void *)1);
-    EXPECT_TRUE(list_pop(l) == (void *)-1);
+    EXPECT_TRUE(list_pop_front(l) == (void *)3);
+    EXPECT_TRUE(list_pop_front(l) == (void *)2);
+    EXPECT_TRUE(list_pop_front(l) == (void *)1);
+    EXPECT_TRUE(list_pop_front(l) == (void *)-1);
+
+    list_destroy(l);
+}
+
+TEST(list, push_back)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)2);
+    EXPECT_TRUE(list_get(l, 2) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, pop_back)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    EXPECT_TRUE(list_pop_back(l) == (void *)3);
+    EXPECT_TRUE(list_pop_back(l) == (void *)2);
+    EXPECT_TRUE(list_pop_back(l) == (void *)1);
+    EXPECT_TRUE(list_pop_back(l) == (void *)-1);
 
     list_destroy(l);
 }

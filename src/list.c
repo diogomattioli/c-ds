@@ -81,7 +81,56 @@ void *list_get(list l, int pos)
     return n->data;
 }
 
-int list_push(list l, void *data)
+int list_push_front(list l, void *data)
+{
+    l->len++;
+
+    node n = malloc(sizeof(struct _node));
+
+    if (n == NULL)
+        return -1;
+
+    n->data = data;
+    n->prev = NULL;
+    n->next = NULL;
+
+    if (l->head == NULL)
+    {
+        l->head = l->tail = n;
+    }
+    else
+    {
+        n->next = l->head;
+        l->head->prev = n;
+        l->head = n;
+    }
+
+    return 0;
+}
+
+void *list_pop_front(list l)
+{
+    if (l->len == 0)
+        return (void *)-1;
+
+    l->len--;
+
+    node n = l->head;
+
+    l->head = n->next;
+    if (l->head == NULL)
+        l->tail = NULL;
+    else
+        l->head->prev = NULL;
+
+    void *ptr = n->data;
+
+    free(n);
+
+    return ptr;
+}
+
+int list_push_back(list l, void *data)
 {
     l->len++;
 
@@ -96,19 +145,19 @@ int list_push(list l, void *data)
 
     if (l->tail == NULL)
     {
-        l->head = n;
-        l->tail = n;
+        l->head = l->tail = n;
     }
     else
     {
         n->prev = l->tail;
+        l->tail->next = n;
         l->tail = n;
     }
 
     return 0;
 }
 
-void *list_pop(list l)
+void *list_pop_back(list l)
 {
     if (l->len == 0)
         return (void *)-1;
