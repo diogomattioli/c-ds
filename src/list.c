@@ -61,6 +61,69 @@ static node list_get_node(list l, int pos)
     return n;
 }
 
+int list_insert(list l, int pos, void *data)
+{
+    if (pos < 0)
+        pos += l->len;
+
+    if (pos == 0)
+        list_push_front(l, data);
+    else if ((size_t)pos == l->len)
+        list_push_back(l, data);
+    else
+    {
+        node n = list_get_node(l, pos);
+        if (n == (void *)-1)
+            return -1;
+
+        node new_n = malloc(sizeof(struct _node));
+        if (new_n == NULL)
+            return -1;
+
+        new_n->data = data;
+        new_n->prev = n->prev;
+        new_n->next = n;
+
+        new_n->prev->next = new_n;
+        new_n->next->prev = new_n;
+
+        l->len++;
+    }
+
+    return 0;
+}
+
+void *list_remove(list l, int pos)
+{
+    if (pos < 0)
+        pos += l->len;
+
+    if (pos == 0)
+        return list_pop_front(l);
+    else if ((size_t)pos == l->len)
+        return list_pop_back(l);
+    else
+    {
+        node n = list_get_node(l, pos);
+        if (n == (void *)-1)
+            return n;
+
+        if (n->prev != NULL)
+            n->prev->next = n->next;
+
+        if (n->next != NULL)
+            n->next->prev = n->prev;
+
+        void *ptr = n->data;
+
+        free(n);
+
+        l->len--;
+
+        return ptr;
+    }
+}
+
 int list_set(list l, int pos, void *data)
 {
     node n = list_get_node(l, pos);
@@ -83,8 +146,6 @@ void *list_get(list l, int pos)
 
 int list_push_front(list l, void *data)
 {
-    l->len++;
-
     node n = malloc(sizeof(struct _node));
 
     if (n == NULL)
@@ -105,6 +166,8 @@ int list_push_front(list l, void *data)
         l->head = n;
     }
 
+    l->len++;
+
     return 0;
 }
 
@@ -112,8 +175,6 @@ void *list_pop_front(list l)
 {
     if (l->len == 0)
         return (void *)-1;
-
-    l->len--;
 
     node n = l->head;
 
@@ -127,13 +188,13 @@ void *list_pop_front(list l)
 
     free(n);
 
+    l->len--;
+
     return ptr;
 }
 
 int list_push_back(list l, void *data)
 {
-    l->len++;
-
     node n = malloc(sizeof(struct _node));
 
     if (n == NULL)
@@ -154,6 +215,8 @@ int list_push_back(list l, void *data)
         l->tail = n;
     }
 
+    l->len++;
+
     return 0;
 }
 
@@ -161,8 +224,6 @@ void *list_pop_back(list l)
 {
     if (l->len == 0)
         return (void *)-1;
-
-    l->len--;
 
     node n = l->tail;
 
@@ -175,6 +236,8 @@ void *list_pop_back(list l)
     void *ptr = n->data;
 
     free(n);
+
+    l->len--;
 
     return ptr;
 }

@@ -8,6 +8,9 @@ typedef struct _list *list;
 list list_new();
 size_t list_len(list l);
 
+int list_insert(list l, int pos, void *data);
+void *list_remove(list l, int pos);
+
 int list_set(list l, int pos, void *data);
 void *list_get(list l, int pos);
 int list_push_front(list l, void *data);

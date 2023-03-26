@@ -57,6 +57,171 @@ TEST(list, length_pop)
     list_destroy(l);
 }
 
+TEST(list, insert_first)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_insert(l, 0, (void *)0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)0);
+    EXPECT_TRUE(list_get(l, 1) == (void *)1);
+    EXPECT_TRUE(list_get(l, 2) == (void *)2);
+    EXPECT_TRUE(list_get(l, 3) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, insert_first_negative)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_insert(l, -3, (void *)0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)0);
+    EXPECT_TRUE(list_get(l, 1) == (void *)1);
+    EXPECT_TRUE(list_get(l, 2) == (void *)2);
+    EXPECT_TRUE(list_get(l, 3) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, insert_last)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_insert(l, 3, (void *)0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)2);
+    EXPECT_TRUE(list_get(l, 2) == (void *)3);
+    EXPECT_TRUE(list_get(l, 3) == (void *)0);
+
+    list_destroy(l);
+}
+
+TEST(list, insert_middle)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+    list_push_back(l, (void *)4);
+
+    list_insert(l, 2, (void *)0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)2);
+    EXPECT_TRUE(list_get(l, 2) == (void *)0);
+    EXPECT_TRUE(list_get(l, 3) == (void *)3);
+    EXPECT_TRUE(list_get(l, 4) == (void *)4);
+
+    list_destroy(l);
+}
+
+TEST(list, insert_middle_negative)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+    list_push_back(l, (void *)4);
+
+    list_insert(l, -2, (void *)0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)2);
+    EXPECT_TRUE(list_get(l, 2) == (void *)0);
+    EXPECT_TRUE(list_get(l, 3) == (void *)3);
+    EXPECT_TRUE(list_get(l, 4) == (void *)4);
+
+    list_destroy(l);
+}
+
+TEST(list, remove_first)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_remove(l, 0);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)2);
+    EXPECT_TRUE(list_get(l, 1) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, remove_first_negative)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_remove(l, -3);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)2);
+    EXPECT_TRUE(list_get(l, 1) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, remove_last)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_remove(l, 3);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)2);
+    EXPECT_TRUE(list_get(l, 2) == (void *)-1);
+
+    list_destroy(l);
+}
+
+TEST(list, remove_middle)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_remove(l, 1);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)3);
+
+    list_destroy(l);
+}
+
+TEST(list, remove_middle_negative)
+{
+    list l = list_new();
+    list_push_back(l, (void *)1);
+    list_push_back(l, (void *)2);
+    list_push_back(l, (void *)3);
+
+    list_remove(l, -2);
+
+    EXPECT_TRUE(list_get(l, 0) == (void *)1);
+    EXPECT_TRUE(list_get(l, 1) == (void *)3);
+
+    list_destroy(l);
+}
+
 TEST(list, set_positive)
 {
     list l = list_new();
