@@ -244,5 +244,13 @@ void *list_pop_back(list l)
 
 void list_destroy(list l)
 {
+    node n = l->head;
+    while (n != NULL)
+    {
+        node next = n->next;
+        free(n);
+        n = next;
+    }
+
     free(l);
 }
