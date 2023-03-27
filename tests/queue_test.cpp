@@ -64,10 +64,10 @@ TEST(queue, push_pop)
     queue_push(q, (void *)2);
     queue_push(q, (void *)1);
 
-    EXPECT_TRUE(queue_pop(q) == (void *)3);
-    EXPECT_TRUE(queue_pop(q) == (void *)2);
-    EXPECT_TRUE(queue_pop(q) == (void *)1);
-    EXPECT_TRUE(queue_pop(q) == (void *)-1);
+    EXPECT_EQ((uintptr_t)queue_pop(q), 3);
+    EXPECT_EQ((uintptr_t)queue_pop(q), 2);
+    EXPECT_EQ((uintptr_t)queue_pop(q), 1);
+    EXPECT_EQ((uintptr_t)queue_pop(q), -1);
 
     queue_destroy(q);
 }

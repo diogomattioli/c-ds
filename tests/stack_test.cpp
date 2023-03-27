@@ -64,10 +64,10 @@ TEST(stack, push_pop)
     stack_push(s, (void *)2);
     stack_push(s, (void *)3);
 
-    EXPECT_TRUE(stack_pop(s) == (void *)3);
-    EXPECT_TRUE(stack_pop(s) == (void *)2);
-    EXPECT_TRUE(stack_pop(s) == (void *)1);
-    EXPECT_TRUE(stack_pop(s) == (void *)-1);
+    EXPECT_EQ((uintptr_t)stack_pop(s), 3);
+    EXPECT_EQ((uintptr_t)stack_pop(s), 2);
+    EXPECT_EQ((uintptr_t)stack_pop(s), 1);
+    EXPECT_EQ((uintptr_t)stack_pop(s), -1);
 
     stack_destroy(s);
 }
