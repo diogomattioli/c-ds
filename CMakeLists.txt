@@ -19,6 +19,6 @@ link_directories(${CMAKE_CURRENT_BINARY_DIR})
 file(GLOB srcs "src/*.c")
 add_library(ds ${srcs})
 
-file(GLOB test_srcs "tests/*.cpp")
-add_executable(ds-tests ${srcs} ${test_srcs})
+file(GLOB tests "tests/*.cpp")
+add_executable(ds-tests ${srcs} ${tests})
 target_link_libraries(ds-tests ds ${GTEST_BOTH_LIBRARIES})
