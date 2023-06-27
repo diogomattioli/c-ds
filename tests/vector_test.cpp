@@ -237,3 +237,19 @@ TEST(vector, pop_zero_start)
 
     vector_destroy(v);
 }
+
+TEST(vector, cleanup)
+{
+    vector v = vector_new_with_capacity(0, 1);
+    vector_push(v, malloc(1));
+    vector_push(v, malloc(1));
+    vector_push(v, malloc(1));
+
+    EXPECT_EQ(vector_len(v), 3);
+
+    vector_cleanup(v);
+
+    EXPECT_EQ(vector_len(v), 0);
+
+    vector_destroy(v);
+}

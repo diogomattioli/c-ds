@@ -16,6 +16,7 @@ void *vector_get(vector v, int pos);
 int vector_push(vector v, void *data);
 void *vector_pop(vector v);
 
+void vector_cleanup(vector v);
 void vector_destroy(vector v);
 
 #endif

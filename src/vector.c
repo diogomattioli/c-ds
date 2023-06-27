@@ -1,5 +1,7 @@
 #include "vector.h"
 
+#include <stdio.h>
+
 struct _vector
 {
     void **data;
@@ -96,6 +98,15 @@ void *vector_pop(vector v)
     }
 
     return ptr;
+}
+
+void vector_cleanup(vector v)
+{
+    void *ptr = NULL;
+    while ((ptr = vector_pop(v)) != (void *)-1)
+    {
+        free(ptr);
+    }
 }
 
 void vector_destroy(vector v)
