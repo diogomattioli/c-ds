@@ -18,6 +18,7 @@ void *list_pop_front(list l);
 int list_push_back(list l, void *data);
 void *list_pop_back(list v);
 
+void list_cleanup(list l);
 void list_destroy(list l);
 
 #endif

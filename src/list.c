@@ -242,14 +242,19 @@ void *list_pop_back(list l)
     return ptr;
 }
 
+void list_cleanup(list l)
+{
+    void *ptr = NULL;
+    while ((ptr = list_pop_back(l)) != (void *)-1)
+    {
+        free(ptr);
+    }
+}
+
 void list_destroy(list l)
 {
-    node n = l->head;
-    while (n != NULL)
+    while (list_pop_back(l) != (void *)-1)
     {
-        node next = n->next;
-        free(n);
-        n = next;
     }
 
     free(l);

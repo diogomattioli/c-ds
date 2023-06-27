@@ -373,3 +373,19 @@ TEST(list, pop_back)
 
     list_destroy(l);
 }
+
+TEST(list, cleanup)
+{
+    list l = list_new();
+    list_push_back(l, malloc(1));
+    list_push_back(l, malloc(1));
+    list_push_back(l, malloc(1));
+
+    EXPECT_EQ(list_len(l), 3);
+
+    list_cleanup(l);
+
+    EXPECT_EQ(list_len(l), 0);
+
+    list_destroy(l);
+}
