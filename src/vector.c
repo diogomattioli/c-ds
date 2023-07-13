@@ -111,5 +111,6 @@ void vector_cleanup(vector v)
 
 void vector_destroy(vector v)
 {
+    free(v->data);
     free(v);
 }
